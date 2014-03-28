@@ -33,6 +33,26 @@ namespace AlbumSamling.Pages
                 Session["Message"] = value;
             }
         }
+        private bool HasCustomer
+        {
+            get
+            {
+                return Session["Customer"] != null;
+            }
+        }
+        private object  Customer
+        {
+            get
+            {
+                var Customer = Session["Customer"];
+                Session.Remove("Customer");
+                return Customer;
+            }
+            set
+            {
+                Session["Customer"] = value;
+            }
+        }
         private ServiceCustomer _serviceCustomer;
 
         private ServiceCustomer ServiceCustomer
@@ -89,32 +109,18 @@ namespace AlbumSamling.Pages
                 ModelState.AddModelError(String.Empty, "Ett oväntat fel inträffade då kunduppgiften skulle tas bort.");
             }
         }
+           
 
-        public void ContactListView_UpdateItem(int KundID) // Parameterns namn måste överrensstämma med värdet DataKeyNames har.
+
+        protected void Edit_Command(object sender, CommandEventArgs e)
         {
-            try
-            {
-                var customer = ServiceCustomer.GetContact(KundID);
-                if (customer == null)
-                {
-                    // Hittade inte kunden.
-                    ModelState.AddModelError(String.Empty,
-                        String.Format("Kunden med kundnummer {0} hittades inte.", KundID));
-                    return;
-                }
-
-                if (TryUpdateModel(customer))
-                {
-                    ServiceCustomer.SaveContact(customer);
-                }
-                Message = String.Format("Kontakten uppdaterades i databasen.");
-                Response.Redirect(Request.RawUrl);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+           Customer = e.CommandArgument;
+           Response.Redirect("~/Pages/IndexEdit.aspx");
         }
+
+
+
+        
 
     }
 }

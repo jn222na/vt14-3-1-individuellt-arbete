@@ -60,6 +60,7 @@
     <Content Include="Css.css" />
     <Content Include="Pages\Album.aspx" />
     <Content Include="Pages\Index.aspx" />
+    <Content Include="Pages\IndexEdit.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -85,9 +86,24 @@
     <Compile Include="Pages\Index.aspx.designer.cs">
       <DependentUpon>Index.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Pages\IndexEdit.aspx.cs">
+      <DependentUpon>IndexEdit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\IndexEdit.aspx.designer.cs">
+      <DependentUpon>IndexEdit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Master.Master.cs">
+      <DependentUpon>Master.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Master.Master.designer.cs">
+      <DependentUpon>Master.Master</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Pages\Master.Master" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -9,7 +9,7 @@
 <body>
     <form id="form1" runat="server">
         <div>
-
+            
             <asp:Label runat="server" ID="Statuslabel" Visible="false" Text=""></asp:Label>
             <asp:ListView ID="CustomerListView1" runat="server"
                 ItemType="AlbumSamling.Model.CustomerProp"
@@ -49,7 +49,11 @@
                             <%#: Item.Ort %>
                         </td>
                         <td class="Detaljer">
-                            <asp:LinkButton ID="Edit" runat="server" CommandName="Edit" Text="Redigera"></asp:LinkButton>
+                            <asp:LinkButton ID="Edit" runat="server"
+                                 CommandArgument='<%#: Item.Förnamn +"  "+ Item.Efternamn + "  " + Item.Ort%> '
+                                 OnCommand="Edit_Command"
+                                 Text="Redigera"
+                                ></asp:LinkButton>
                             <asp:LinkButton ID="Delete" CommandName="Delete" runat="server" Text="Ta Bort" OnClientClick='<%# String.Format("return confirm(\"Ta bort namnet {0} {1}?\")", Item.Förnamn, Item.Efternamn) %>'></asp:LinkButton>
                         </td>
                     </tr>
