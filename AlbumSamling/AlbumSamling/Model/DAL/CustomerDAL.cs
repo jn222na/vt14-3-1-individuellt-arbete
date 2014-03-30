@@ -21,7 +21,7 @@ namespace AlbumSamling.Model.DAL
         {
             return new SqlConnection(_connectionString);
         }
-
+        //TODO: ÄNDRA SQLCOMMAND
         public static CustomerProp GetCustomerById(int customerID)
         {
             using (var conn = CreateConnection())
@@ -29,7 +29,7 @@ namespace AlbumSamling.Model.DAL
                 try
                 {
                     //visa specifik kund
-                    var cmd = new SqlCommand("AppSchema.UppKund", conn);
+                    var cmd = new SqlCommand("AppSchema.VisaKund", conn);
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("@KundID", SqlDbType.Int, 4).Value = customerID;
                     conn.Open();
@@ -46,7 +46,6 @@ namespace AlbumSamling.Model.DAL
                             return new CustomerProp
                             {
                                 KundID = reader.GetInt32(kundIDIndex),
-                                //TelefonID = reader.GetInt32(telefonIDIndex),
                                 Förnamn = reader.GetString(förnamnIndex),
                                 Efternamn = reader.GetString(efternamnIndex),
                                 Ort = reader.GetString(ortIndex)

@@ -15,7 +15,6 @@
                 ItemType="AlbumSamling.Model.CustomerProp"
                 SelectMethod="CustomerListView_GetData"
                 DeleteMethod="ContactListView_DeleteItem"
-                UpdateMethod="ContactListView_UpdateItem"
                 InsertMethod="ContactFormView_InsertItem"
                 InsertItemPosition="FirstItem"
                 DataKeyNames="KundID">

@@ -66,6 +66,8 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Infrastructure\PageExtensions.cs" />
+    <Compile Include="App_start\RouteConfig.cs" />
     <Compile Include="Model\AlbumProp.cs" />
     <Compile Include="Model\CustomerProp.cs" />
     <Compile Include="Model\DAL\AlbumDAL.cs" />

@@ -28,11 +28,11 @@ namespace AlbumSamling.Pages
             //    Statuslabel.Text = Message;
             //    Statuslabel.Visible = true;
             //}
-            
 
-            if (Session["Customer"] != null)
+
+            if (Session["Förnamn"] != null)
             {
-                Label1.Text = (string)Session["Customer"];
+                Label1.Text = (string)Session["Förnamn"];
             }
             else
             {
@@ -40,30 +40,24 @@ namespace AlbumSamling.Pages
             }
         }
 
-        public void CustomerListView_GetData()
+        // The id parameter name should match the DataKeyNames value set on the control
+        public void CustomerListView1_UpdateItem(int KundID)
         {
-
-        }
-
-        public void ContactListView_UpdateItem(int KundID) // Parameterns namn måste överrensstämma med värdet DataKeyNames har.
-        {
-
+            var customer = ServiceCustomer.GetContact(KundID);
+            // Load the item here, e.g. item = MyDataLayer.Find(id);
             try
             {
-                var customer = ServiceCustomer.GetContact(KundID);
                 if (customer == null)
                 {
-                    // Hittade inte kunden.
+                    // The item wasn't found
                     ModelState.AddModelError(String.Empty,
-                        String.Format("Kunden med kundnummer {0} hittades inte.", KundID));
-                    return;
+                          String.Format("Kunden med kundnummer {0} hittades inte.", KundID));
                 }
-
-                if (TryUpdateModel(customer))
+                TryUpdateModel(customer);
+                if (ModelState.IsValid)
                 {
                     ServiceCustomer.SaveContact(customer);
                 }
-                //Message = String.Format("Kontakten uppdaterades i databasen.");
                 Response.Redirect(Request.RawUrl);
             }
             catch (Exception)
@@ -72,15 +66,18 @@ namespace AlbumSamling.Pages
             }
         }
 
-        // The return type can be changed to IEnumerable, however to support
-        // paging and sorting, the following parameters must be added:
-        //     int maximumRows
-        //     int startRowIndex
-        //     out int totalRowCount
-        //     string sortByExpression
-        public IQueryable<AlbumSamling.Model.CustomerProp> CustomerListView1_GetData()
+        public void CustomerListView_GetData(int KundID)
         {
-            return null;
+            try
+            {
+                 ServiceCustomer.GetContact(KundID);
+            }
+            catch (Exception)
+            {
+                ModelState.AddModelError(String.Empty, "Ett oväntat fel inträffade då kunduppgifter skulle hämtas.");
+                
+            }
         }
+       
     }
 }

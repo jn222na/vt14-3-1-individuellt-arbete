@@ -33,24 +33,17 @@ namespace AlbumSamling.Pages
                 Session["Message"] = value;
             }
         }
-        private bool HasCustomer
+        private object Förnamn
         {
             get
             {
-                return Session["Customer"] != null;
-            }
-        }
-        private object  Customer
-        {
-            get
-            {
-                var Customer = Session["Customer"];
-                Session.Remove("Customer");
-                return Customer;
+                var Förnamn = Session["Förnamn"];
+                Session.Remove("Förnamn");
+                return Förnamn;
             }
             set
             {
-                Session["Customer"] = value;
+                Session["Förnamn"] = value;
             }
         }
         private ServiceCustomer _serviceCustomer;
@@ -109,18 +102,20 @@ namespace AlbumSamling.Pages
                 ModelState.AddModelError(String.Empty, "Ett oväntat fel inträffade då kunduppgiften skulle tas bort.");
             }
         }
-           
+
 
 
         protected void Edit_Command(object sender, CommandEventArgs e)
         {
-           Customer = e.CommandArgument;
-           Response.Redirect("~/Pages/IndexEdit.aspx");
+            Förnamn = e.CommandArgument;
+
+            Response.Redirect("~/Pages/IndexEdit.aspx");
+
         }
 
 
 
-        
+
 
     }
 }
