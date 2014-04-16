@@ -22,30 +22,33 @@ namespace AlbumSamling.Model.DAL
             return new SqlConnection(_connectionString);
         }
         //TODO: ÄNDRA SQLCOMMAND
-        public static CustomerProp GetCustomerById(int customerID)
+        public CustomerProp GetCustomerById(int customerId)
         {
             using (var conn = CreateConnection())
             {
                 try
                 {
                     //visa specifik kund
-                    var cmd = new SqlCommand("AppSchema.VisaKund", conn);
+                    SqlCommand cmd = new SqlCommand("AppSchema.VisaKund", conn);
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@KundID", SqlDbType.Int, 4).Value = customerID;
+                    cmd.Parameters.AddWithValue("@KundID", customerId);
+                        
                     conn.Open();
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
                         if (reader.Read())
                         {
-                            int kundIDIndex = reader.GetOrdinal("KundID");
-                            int telefonIDIndex = reader.GetOrdinal("TelefonID");
+                            //int customerIdIndex = reader.GetOrdinal("KundID");
+                            //int telefonIDIndex = reader.GetOrdinal("TelefonID");
                             int förnamnIndex = reader.GetOrdinal("Förnamn");
                             int efternamnIndex = reader.GetOrdinal("Efternamn");
                             int ortIndex = reader.GetOrdinal("Ort");
 
+
                             return new CustomerProp
                             {
-                                KundID = reader.GetInt32(kundIDIndex),
+                                CustomerId = customerId,
+                                //TelefonID = reader.GetInt32(telefonIDIndex),
                                 Förnamn = reader.GetString(förnamnIndex),
                                 Efternamn = reader.GetString(efternamnIndex),
                                 Ort = reader.GetString(ortIndex)
@@ -61,12 +64,6 @@ namespace AlbumSamling.Model.DAL
                 }
             }
         }
-        public CustomerProp GetCustomerID(int GetCustomerID)
-        {
-
-            throw new NotImplementedException();
-        }
-
         public static IEnumerable<CustomerProp> GetCustomers()
         {
             // Skapar och initierar ett anslutningsobjekt.
@@ -93,11 +90,12 @@ namespace AlbumSamling.Model.DAL
                         // Tar reda på vilket index de olika kolumnerna har. Det är mycket effektivare att göra detta
                         // en gång för alla innan while-loopen. Genom att använda GetOrdinal behöver du inte känna till
                         // i vilken ordning de olika kolumnerna kommer, bara vad de heter.
-                        var kundIDIndex = reader.GetOrdinal("KundID");
-                        var telefonIDIndex = reader.GetOrdinal("TelefonID");
+                        var CustomerIdIndex = reader.GetOrdinal("KundID");
+                        //var telefonIDIndex = reader.GetOrdinal("TelefonID");
                         var förnamnIndex = reader.GetOrdinal("Förnamn");
                         var efternamnIndex = reader.GetOrdinal("Efternamn");
                         var ortIndex = reader.GetOrdinal("Ort");
+                  
 
                         // Så länge som det finns poster att läsa returnerar Read true. Finns det inte fler 
                         // poster returnerar Read false.
@@ -107,11 +105,12 @@ namespace AlbumSamling.Model.DAL
                             // Du måste känna till SQL-satsen för att kunna välja rätt GetXxx-metod.
                             customers.Add(new CustomerProp
                             {
-                                KundID = reader.GetInt32(kundIDIndex),
+                                CustomerId = reader.GetInt32(CustomerIdIndex),
                                 //TelefonID = reader.GetInt32(telefonIDIndex),
                                 Förnamn = reader.GetString(förnamnIndex),
                                 Efternamn = reader.GetString(efternamnIndex),
                                 Ort = reader.GetString(ortIndex)
+
                             });
                         }
                     }
@@ -134,7 +133,7 @@ namespace AlbumSamling.Model.DAL
             // Skapar och initierar ett anslutningsobjekt.
             using (SqlConnection conn = CreateConnection())
             {
-                
+
                 try
                 {
                     // Skapar och initierar ett SqlCommand-objekt som används till att 
@@ -162,7 +161,7 @@ namespace AlbumSamling.Model.DAL
                     cmd.ExecuteNonQuery();
 
                     // Hämtar primärnyckelns värde för den nya posten och tilldelar Customer-objektet värdet.
-                    customerProp.KundID = (int)cmd.Parameters["@KundID"].Value;
+                    customerProp.CustomerId = (int)cmd.Parameters["@KundID"].Value;
                 }
                 catch
                 {
@@ -171,7 +170,7 @@ namespace AlbumSamling.Model.DAL
                 }
             }
         }
-        public void UpdateContact(CustomerProp Customer)
+        public void UpdateContact(CustomerProp CustomerProp)
         {
             // Skapar och initierar ett anslutningsobjekt.
             using (SqlConnection conn = CreateConnection())
@@ -183,9 +182,10 @@ namespace AlbumSamling.Model.DAL
 
                     // Lägger till de paramterar den lagrade proceduren kräver. Använder här det effektiva sätttet att
                     // göra det på - något "svårare" men ASP.NET behöver inte "jobba" så mycket.
-                    cmd.Parameters.Add("@Förnamn", SqlDbType.VarChar, 50).Value = Customer.Förnamn;
-                    cmd.Parameters.Add("@Efternamn", SqlDbType.VarChar, 50).Value = Customer.Efternamn;
-                    cmd.Parameters.Add("@Ort", SqlDbType.VarChar, 50).Value = Customer.Ort;
+                    cmd.Parameters.Add("@KundID", SqlDbType.VarChar, 50).Value = CustomerProp.CustomerId;
+                    cmd.Parameters.Add("@Förnamn", SqlDbType.VarChar, 50).Value = CustomerProp.Förnamn;
+                    cmd.Parameters.Add("@Efternamn", SqlDbType.VarChar, 50).Value = CustomerProp.Efternamn;
+                    cmd.Parameters.Add("@Ort", SqlDbType.VarChar, 50).Value = CustomerProp.Ort;
 
                     // Öppnar anslutningen till databasen.
                     conn.Open();

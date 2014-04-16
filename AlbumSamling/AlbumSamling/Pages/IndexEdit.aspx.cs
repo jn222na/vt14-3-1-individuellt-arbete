@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.ModelBinding;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -10,7 +11,29 @@ namespace AlbumSamling.Pages
 {
     public partial class IndexEdit : System.Web.UI.Page
     {
-        
+        private bool HasMessage
+        {
+            get
+            {
+                return Session["Message"] != null;
+            }
+        }
+
+        private string Message
+        {
+            get
+            {
+                var Message = Session["Message"] as string;
+                Session.Remove("Message");
+                return Message;
+            }
+
+            set
+            {
+                Session["Message"] = value;
+            }
+        }
+
         private ServiceCustomer _serviceCustomer;
 
         private ServiceCustomer ServiceCustomer
@@ -21,63 +44,67 @@ namespace AlbumSamling.Pages
         }
         protected void Page_Load(object sender, EventArgs e)
         {
-            //bool HasMessage = (bool)(Session["Message"]);
-            //string Message = (string)(Session["Message"]);
-            //if (HasMessage)
-            //{
-            //    Statuslabel.Text = Message;
-            //    Statuslabel.Visible = true;
-            //}
-
-
-            if (Session["Förnamn"] != null)
+            if (HasMessage)
             {
-                Label1.Text = (string)Session["Förnamn"];
+                Label1.Text = Message;
+                Label1.Visible = true;
             }
-            else
-            {
-                Label1.Text = "Hittade inte kund";
-            }
+
+        }
+        public AlbumSamling.Model.CustomerProp CustomerFormView_GetData([RouteData]int KundID)
+        {
+           
+                try
+                {
+                    return ServiceCustomer.GetContact(KundID);
+                }
+            
+                catch (Exception)
+                {
+                    ModelState.AddModelError(String.Empty, "Ett oväntat fel inträffade då kunduppgifter skulle hämtas.");
+                    return null;
+                }
+            
         }
 
         // The id parameter name should match the DataKeyNames value set on the control
-        public void CustomerListView1_UpdateItem(int KundID)
+        public void CustomerFormView_UpdateItem(int CustomerId)
         {
-            var customer = ServiceCustomer.GetContact(KundID);
-            // Load the item here, e.g. item = MyDataLayer.Find(id);
-            try
+
+            if (IsValid)
             {
-                if (customer == null)
+                // Load the item here, e.g. item = MyDataLayer.Find(id);
+                try
                 {
-                    // The item wasn't found
-                    ModelState.AddModelError(String.Empty,
-                          String.Format("Kunden med kundnummer {0} hittades inte.", KundID));
+                    var customer = ServiceCustomer.GetContact(CustomerId);
+                    Message = String.Format("Kontakten Uppdaterades.");
+
+                    if (customer == null)
+                    {
+                        // The item wasn't found
+                        ModelState.AddModelError(String.Empty,
+                              String.Format("Kunden med kundnummer {0} hittades inte.", CustomerId));
+                    }
+
+                    if (TryUpdateModel(customer))
+                    {
+
+                        ServiceCustomer.SaveContact(customer);
+
+                    }
+
+                    Response.RedirectToRoute("Index");
+
                 }
-                TryUpdateModel(customer);
-                if (ModelState.IsValid)
+                catch (Exception)
                 {
-                    ServiceCustomer.SaveContact(customer);
+                    throw;
                 }
-                Response.Redirect(Request.RawUrl);
             }
-            catch (Exception)
-            {
-                throw;
-            }
+            
         }
 
-        public void CustomerListView_GetData(int KundID)
-        {
-            try
-            {
-                 ServiceCustomer.GetContact(KundID);
-            }
-            catch (Exception)
-            {
-                ModelState.AddModelError(String.Empty, "Ett oväntat fel inträffade då kunduppgifter skulle hämtas.");
-                
-            }
-        }
-       
+
+
     }
 }

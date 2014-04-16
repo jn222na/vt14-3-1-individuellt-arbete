@@ -33,19 +33,6 @@ namespace AlbumSamling.Pages
                 Session["Message"] = value;
             }
         }
-        private object Förnamn
-        {
-            get
-            {
-                var Förnamn = Session["Förnamn"];
-                Session.Remove("Förnamn");
-                return Förnamn;
-            }
-            set
-            {
-                Session["Förnamn"] = value;
-            }
-        }
         private ServiceCustomer _serviceCustomer;
 
         private ServiceCustomer ServiceCustomer
@@ -65,35 +52,41 @@ namespace AlbumSamling.Pages
 
         public IEnumerable<AlbumSamling.Model.CustomerProp> CustomerListView_GetData()
         {
-            try
-            {
-                return ServiceCustomer.GetCustomers();
-            }
-            catch (Exception)
-            {
-                ModelState.AddModelError(String.Empty, "Ett oväntat fel inträffade då kunduppgifter skulle hämtas.");
-                return null;
-            }
+          
+                try
+                {
+                    return ServiceCustomer.GetCustomers();
+                }
+                catch (Exception)
+                {
+                    ModelState.AddModelError(String.Empty, "Ett oväntat fel inträffade då kunduppgifter skulle hämtas.");
+                    return null;
+                }
+               
         }
         public void ContactFormView_InsertItem(CustomerProp CustomerProp)
         {
-            try
+            if (ModelState.IsValid)
             {
-                ServiceCustomer.SaveContact(CustomerProp);
-                Message = String.Format("Ny kontakt lades till i databasen.");
-                Response.Redirect(Request.RawUrl);
-            }
-            catch (Exception)
-            {
-                ModelState.AddModelError(String.Empty, "Ett oväntat fel inträffade då kunduppgiften skulle läggas till.");
+                try
+                {
+                    ServiceCustomer.SaveContact(CustomerProp);
+                    Message = String.Format("Ny kontakt lades till i databasen.");
+                    
+                    Response.Redirect(Request.RawUrl);
+                }
+                catch (Exception)
+                {
+                    ModelState.AddModelError(String.Empty, "Ett oväntat fel inträffade då kunduppgiften skulle läggas till.");
+                }
             }
         }
 
-        public void ContactListView_DeleteItem(int KundID)
+        public void ContactListView_DeleteItem(int CustomerId)
         {
             try
             {
-                ServiceCustomer.DeleteCustomer(KundID);
+                ServiceCustomer.DeleteCustomer(CustomerId);
                 Message = String.Format("Kontakten togs bort.");
                 Response.Redirect(Request.RawUrl);
             }
@@ -103,16 +96,11 @@ namespace AlbumSamling.Pages
             }
         }
 
-
-
-        protected void Edit_Command(object sender, CommandEventArgs e)
+        protected void RouteToUrl(object sender, EventArgs e)
         {
-            Förnamn = e.CommandArgument;
-
-            Response.Redirect("~/Pages/IndexEdit.aspx");
+            Response.RedirectToRoute("AlbumEditRoute");
 
         }
-
 
 
 

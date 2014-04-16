@@ -10,10 +10,11 @@ namespace AlbumSamling.App_start
     {
         public static void RegisterRoutes(RouteCollection routes)
         {
-            routes.MapPageRoute("IndexEditRoute", "Kund/ny", "AlbumSamling/Pages/IndexEdit.aspx");
             routes.MapPageRoute("Index", "Index", "~/Pages/Index.aspx");
+            routes.MapPageRoute("IndexEditRoute", "kund/{KundID}", "~/Pages/IndexEdit.aspx");
+            routes.MapPageRoute("AlbumEditRoute", "album/{AlbumID}", "~/Pages/AlbumEdit.aspx");
+            routes.MapPageRoute("Album", "album", "~/Pages/Album.aspx");
             
-
         }
 
     }

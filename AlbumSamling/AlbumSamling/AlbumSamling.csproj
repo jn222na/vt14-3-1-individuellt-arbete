@@ -58,9 +58,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Css.css" />
+    <Content Include="Global.asax" />
     <Content Include="Pages\Album.aspx" />
+    <Content Include="Pages\AlbumEdit.aspx" />
+    <Content Include="Pages\hej.aspx" />
     <Content Include="Pages\Index.aspx" />
     <Content Include="Pages\IndexEdit.aspx" />
+    <Content Include="Pages\Phone.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -68,18 +72,38 @@
   <ItemGroup>
     <Compile Include="App_Infrastructure\PageExtensions.cs" />
     <Compile Include="App_start\RouteConfig.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Model\DAL\AlbumDAL.cs" />
     <Compile Include="Model\AlbumProp.cs" />
     <Compile Include="Model\CustomerProp.cs" />
-    <Compile Include="Model\DAL\AlbumDAL.cs" />
     <Compile Include="Model\DAL\CustomerDAL.cs" />
+    <Compile Include="Model\DAL\PhoneDAL.cs" />
+    <Compile Include="Model\PhoneProp.cs" />
     <Compile Include="Model\ServiceAlbum.cs" />
     <Compile Include="Model\ServiceCustomer.cs" />
+    <Compile Include="Model\ServicePhone.cs" />
     <Compile Include="Pages\Album.aspx.cs">
       <DependentUpon>Album.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Pages\Album.aspx.designer.cs">
       <DependentUpon>Album.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\AlbumEdit.aspx.cs">
+      <DependentUpon>AlbumEdit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\AlbumEdit.aspx.designer.cs">
+      <DependentUpon>AlbumEdit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\hej.aspx.cs">
+      <DependentUpon>hej.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\hej.aspx.designer.cs">
+      <DependentUpon>hej.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pages\Index.aspx.cs">
       <DependentUpon>Index.aspx</DependentUpon>
@@ -101,6 +125,13 @@
     </Compile>
     <Compile Include="Pages\Master.Master.designer.cs">
       <DependentUpon>Master.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Phone.aspx.cs">
+      <DependentUpon>Phone.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Phone.aspx.designer.cs">
+      <DependentUpon>Phone.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
