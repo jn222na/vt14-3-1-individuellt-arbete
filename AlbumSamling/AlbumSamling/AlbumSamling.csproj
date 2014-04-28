@@ -61,7 +61,6 @@
     <Content Include="Global.asax" />
     <Content Include="Pages\Album.aspx" />
     <Content Include="Pages\AlbumEdit.aspx" />
-    <Content Include="Pages\hej.aspx" />
     <Content Include="Pages\Index.aspx" />
     <Content Include="Pages\IndexEdit.aspx" />
     <Content Include="Pages\Phone.aspx" />
@@ -98,13 +97,6 @@
     <Compile Include="Pages\AlbumEdit.aspx.designer.cs">
       <DependentUpon>AlbumEdit.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Pages\hej.aspx.cs">
-      <DependentUpon>hej.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Pages\hej.aspx.designer.cs">
-      <DependentUpon>hej.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Pages\Index.aspx.cs">
       <DependentUpon>Index.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -137,6 +129,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Pages\Master.Master" />
+    <None Include="Properties\PublishProfiles\ads.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

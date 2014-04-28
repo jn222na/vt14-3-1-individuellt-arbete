@@ -62,15 +62,18 @@ namespace AlbumSamling.Pages
         }
         public void AlbumFormView_InsertItem(AlbumProp AlbumProp)
         {
-            try
+            if (ModelState.IsValid)
             {
-                ServiceAlbum.SaveAlbum(AlbumProp);
-                AlbumMessage = String.Format("Ny kontakt lades till i databasen.");
-                Response.Redirect(Request.RawUrl);
-            }
-            catch (Exception)
-            {
-                ModelState.AddModelError(String.Empty, "Ett oväntat fel inträffade då kunduppgiften skulle läggas till.");
+                try
+                {
+                    ServiceAlbum.SaveAlbum(AlbumProp);
+                    AlbumMessage = String.Format("Ny kontakt lades till i databasen.");
+                    Response.Redirect(Request.RawUrl);
+                }
+                catch (Exception)
+                {
+                    ModelState.AddModelError(String.Empty, "Ett oväntat fel inträffade då kunduppgiften skulle läggas till.");
+                }
             }
         }
         public void AlbumListView_DeleteItem(int AlbumID)

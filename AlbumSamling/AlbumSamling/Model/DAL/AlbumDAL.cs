@@ -39,7 +39,7 @@ namespace AlbumSamling.Model.DAL
                     {
                         if (reader.Read())
                         {
-                            int AlbumIDIndex = reader.GetOrdinal("AlbumID");
+                            //int AlbumIDIndex = reader.GetOrdinal("AlbumID");
                             int AlbumTitelIndex = reader.GetOrdinal("AlbumTitel");
                             int ArtistTitelIndex = reader.GetOrdinal("ArtistTitel");
                             int UtgivningsårIndex = reader.GetOrdinal("Utgivningsår");

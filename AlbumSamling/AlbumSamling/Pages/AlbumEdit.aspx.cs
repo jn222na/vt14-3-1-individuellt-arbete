@@ -19,6 +19,15 @@ namespace AlbumSamling.Pages
             // gången (lazy initialization, http://en.wikipedia.org/wiki/Lazy_initialization).
             get { return _serviceAlbum ?? (_serviceAlbum = new ServiceAlbum()); }
         }
+        //protected void Page_Load(object sender, EventArgs e)
+        //{
+        //    if (HasMessage)
+        //    {
+        //        Label1.Text = Message;
+        //        Label1.Visible = true;
+        //    }
+
+        //}
         public AlbumSamling.Model.AlbumProp AlbumFormView_GetData([RouteData]int AlbumID)
         {
 
@@ -39,25 +48,28 @@ namespace AlbumSamling.Pages
 
 
             // Load the item here, e.g. item = MyDataLayer.Find(id);
-            try
+            if (IsValid)
             {
-                var album = ServiceAlbum.GetAlbum(AlbumId);
-                if (album == null)
+                try
                 {
-                    // The item wasn't found
-                    ModelState.AddModelError(String.Empty,
-                          String.Format("Kunden med kundnummer {0} hittades inte.", AlbumId));
+                    var album = ServiceAlbum.GetAlbum(AlbumId);
+                    if (album == null)
+                    {
+                        // The item wasn't found
+                        ModelState.AddModelError(String.Empty,
+                              String.Format("Albumet med albumnummer {0} hittades inte.", AlbumId));
+                    }
+                    
+                    if (TryUpdateModel(album))
+                    {
+                        ServiceAlbum.SaveAlbum(album);
+                    }
+                    Response.RedirectToRoute("Album");
                 }
-                TryUpdateModel(album);
-                if (ModelState.IsValid)
+                catch (Exception)
                 {
-                    ServiceAlbum.SaveAlbum(album);
+                    throw;
                 }
-                Response.RedirectToRoute("Album");
-            }
-            catch (Exception)
-            {
-                throw;
             }
         }
     }

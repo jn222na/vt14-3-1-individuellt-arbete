@@ -40,6 +40,16 @@
                 <div>
                     <asp:TextBox ID="Utgivningsår" runat="server" Text='<%# BindItem.Utgivningsår %>' />
                 </div>
+
+
+                    <asp:RequiredFieldValidator ID="RequiredFieldValidator2" Visible="false" runat="server" ErrorMessage="AlbumTitel : Får inte vara tomt" ControlToValidate="AlbumTitel"></asp:RequiredFieldValidator>
+            
+            
+                    <asp:RequiredFieldValidator ID="RequiredFieldValidator1" Visible="false" runat="server" ErrorMessage="ArtistTitel : Får inte vara tomt" ControlToValidate="ArtistTitel"></asp:RequiredFieldValidator>
+            
+          
+                    <asp:RequiredFieldValidator ID="RequiredFieldValidator3" Visible="false" runat="server" ErrorMessage="Utgivningsår : Får inte vara tomt" ControlToValidate="Utgivningsår"></asp:RequiredFieldValidator>
+                    <asp:ValidationSummary ID="ValidationSummary1" runat="server" />
             <div>
                 <asp:LinkButton ID="LinkButton1" runat="server" Text="Spara" CommandName="Update" />
                 <asp:HyperLink ID="HyperLink1" runat="server" Text="Avbryt" NavigateUrl='<%# GetRouteUrl("Album", new { id = Item.AlbumID }) %>' />

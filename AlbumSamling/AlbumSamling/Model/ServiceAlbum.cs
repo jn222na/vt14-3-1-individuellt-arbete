@@ -50,7 +50,7 @@ namespace AlbumSamling.Model
             }
             else
             {
-                AlbumDAL.InsertAlbum(albumProp);
+                AlbumDAL.UpdateAlbum(albumProp);
 
             }
         }
